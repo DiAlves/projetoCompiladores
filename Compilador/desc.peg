@@ -1,0 +1,12 @@
+start = EXP
+
+TERM = s1:STATE _ "liga" _ s2:STATE _ "se" _ e:EVENT N { return factory.criaNo("T1", [s1, e, s2]); }
+  / s:STATE _ "liga" _ e:EVENT N { return factory.criaNo("T2", [s, e]); }
+  / e:EVENT _ "liga" _ s:STATE N { return factory.criaNo("T3", [e, s]); }
+
+EXP = at:(TERM+) { return factory.criaNo("exp",at); }
+   
+N = [\n]+ 
+STATE = [A-Z] { return factory.criaNo("STATE", [text()]); }
+EVENT = [0-9] { return factory.criaNo("EVENT", [text()]); }
+_ = [ \t\r]+ { return ""; }
